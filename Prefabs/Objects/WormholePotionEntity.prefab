@@ -77,11 +77,11 @@ MonoBehaviour:
   isStackable: 1
   requiredObjectsToCraft:
   - objectName: PoisonSlime
-    amount: 3
+    amount: 5
   - objectName: AstralJelly
     amount: 1
   - objectName: AncientGemstone
-    amount: 3
+    amount: 5
   craftingTime: 0
 --- !u!114 &-6532463280762742295
 MonoBehaviour:

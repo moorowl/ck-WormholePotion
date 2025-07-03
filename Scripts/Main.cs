@@ -23,13 +23,13 @@ namespace WormholePotion {
 			// Add recipe to the Distillery Table
 			API.Authoring.OnObjectTypeAdded += (entity, authoring, manager) => {
 				var objectData = manager.GetComponentData<ObjectDataCD>(entity);
-				if (objectData.objectID != ObjectID.DistilleryTable)
+				if (objectData.objectID != ObjectID.LaboratoryWorkbench)
 					return;
 
 				var canCraftObjects = manager.GetBuffer<CanCraftObjectsBuffer>(entity);
 				InsertCraftableObject(canCraftObjects, new CanCraftObjectsBuffer {
 					objectID = WormholePotionId,
-					amount = 1
+					amount = 3
 				});
 			};
 
