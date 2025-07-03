@@ -1,0 +1,5 @@
+Key	Type	Desc	English
+Items/WormholePotion:WormholePotion	Text		Wormhole Potion
+Items/WormholePotion:WormholePotionDesc	Text		Allows you to teleport to a team member. Interact with their icon on the fullscreen map.
+WormholePotion:teleportedTo	Text		{0} has teleported to {1}
+WormholePotion:teleportTo	Text		Teleport to {0}
