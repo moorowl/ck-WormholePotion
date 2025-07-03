@@ -9,6 +9,7 @@ namespace WormholePotion.Networking {
     [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     public partial struct TeleportRequestServerSystem : ISystem {
 	    public void OnCreate(ref SystemState state) {
+		    state.RequireForUpdate<WorldInfoCD>();
 		    state.RequireForUpdate<PugDatabase.DatabaseBankCD>();
 		    state.RequireForUpdate<SkillTalentsTableCD>();
 		    state.RequireForUpdate<UpgradeCostsTableCD>();
@@ -45,6 +46,7 @@ namespace WormholePotion.Networking {
 		    var playerGhostLookup = SystemAPI.GetComponentLookup<PlayerGhost>();
 		    var containedObjectsLookup = SystemAPI.GetBufferLookup<ContainedObjectsBuffer>();
 		    var databaseBank = SystemAPI.GetSingleton<PugDatabase.DatabaseBankCD>();
+		    var worldInfo = SystemAPI.GetSingleton<WorldInfoCD>();
 		    var wormholePotionId = Main.WormholePotionId;
 		    
 		    foreach (var (requestSource, request, requestEntity) in SystemAPI.Query<RefRO<ReceiveRpcCommandRequest>, RefRO<TeleportRequest>>().WithEntityAccess()) {
@@ -53,7 +55,7 @@ namespace WormholePotion.Networking {
 			    if (sourcePlayer == Entity.Null || targetPlayer == Entity.Null)
 				    return;
 
-			    if (!TeleportUtils.CanTeleportTo(sourcePlayer, targetPlayer, _inventoryHandlerShared, playerStateLookup, factionLookup, playerGhostLookup, containedObjectsLookup, databaseBank))
+			    if (!TeleportUtils.CanTeleportTo(sourcePlayer, targetPlayer, _inventoryHandlerShared, worldInfo, playerStateLookup, factionLookup, playerGhostLookup, containedObjectsLookup, databaseBank))
 				    return;
 
 			    if (!SystemAPI.HasComponent<PlayerStateCD>(sourcePlayer) || !SystemAPI.HasComponent<TeleportingStateCD>(sourcePlayer) || !SystemAPI.HasComponent<LocalTransform>(targetPlayer))
@@ -67,7 +69,7 @@ namespace WormholePotion.Networking {
 			    InventoryUtility.ConsumeObject(_inventoryHandlerShared, sourcePlayer, wormholePotionId, 1);
 
 			    var sourcePlayerName = SystemAPI.GetComponentRO<PlayerCustomizationCD>(sourcePlayer).ValueRO.customization.name;
-			    var targetPlayerName = SystemAPI.GetComponentRO<PlayerCustomizationCD>(sourcePlayer).ValueRO.customization.name;
+			    var targetPlayerName = SystemAPI.GetComponentRO<PlayerCustomizationCD>(targetPlayer).ValueRO.customization.name;
 			    
 			    var teleportedMessageEntity = ecb.CreateEntity(_teleportedMessageArchetype);
 			    ecb.SetComponent(teleportedMessageEntity, new TeleportMessageRequest {

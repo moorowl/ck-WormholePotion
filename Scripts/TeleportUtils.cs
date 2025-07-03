@@ -25,15 +25,15 @@ namespace WormholePotion {
 				return false;
 			
 			// Disallow teleporting to yourself
-			//if (sourcePlayer == targetPlayer)
-				//return false;
+			if (sourcePlayer == targetPlayer)
+				return false;
 			
 			// Disallow teleporting in guest mode
 			if (sourcePlayer.adminPrivileges < 1)
 				return false;
 			
 			// Disallow teleporting in guest mode or to a player on another team
-			if (!sourcePlayer.IsPlayersOfSamePvPTeam(targetPlayer))
+			if (sourcePlayer.pvpMode && !sourcePlayer.IsPlayersOfSamePvPTeam(targetPlayer))
 				return false;
 			
 			// Disallow teleporting if either player's state is locked or they're using a boat
@@ -49,13 +49,13 @@ namespace WormholePotion {
 			return true;
 		}
 		
-		public static bool CanTeleportTo(Entity sourcePlayer, Entity targetPlayer, in InventoryHandlerShared inventoryHandlerShared, in ComponentLookup<PlayerStateCD> playerStateLookup, in ComponentLookup<FactionCD> factionLookup, in ComponentLookup<PlayerGhost> playerGhostLookup, in BufferLookup<ContainedObjectsBuffer> containedObjectsBufferLookup, in PugDatabase.DatabaseBankCD databaseBank) {
+		public static bool CanTeleportTo(Entity sourcePlayer, Entity targetPlayer, in InventoryHandlerShared inventoryHandlerShared, in WorldInfoCD worldInfo, in ComponentLookup<PlayerStateCD> playerStateLookup, in ComponentLookup<FactionCD> factionLookup, in ComponentLookup<PlayerGhost> playerGhostLookup, in BufferLookup<ContainedObjectsBuffer> containedObjectsBufferLookup, in PugDatabase.DatabaseBankCD databaseBank) {
 			if (sourcePlayer == Entity.Null || targetPlayer == Entity.Null)
 				return false;
 			
 			// Disallow teleporting to yourself
-			//if (sourcePlayer == targetPlayer)
-				//return false;
+			if (sourcePlayer == targetPlayer)
+				return false;
 			
 			// Disallow teleporting in guest mode
 			if (playerGhostLookup[sourcePlayer].adminPrivileges < 1)
@@ -64,7 +64,7 @@ namespace WormholePotion {
 			// Disallow teleporting in guest mode or to a player on another team
 			var sourcePlayerFaction = factionLookup[sourcePlayer];
 			var targetPlayerFaction = factionLookup[targetPlayer];
-			if (sourcePlayerFaction.pvpTeam != targetPlayerFaction.pvpTeam)
+			if (worldInfo.pvpEnabled && sourcePlayerFaction.pvpTeam != targetPlayerFaction.pvpTeam)
 				return false;
 			
 			// Disallow teleporting if either player's state is locked or they're using a boat
