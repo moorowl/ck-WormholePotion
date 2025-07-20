@@ -29,7 +29,7 @@ namespace WormholePotion {
 				return false;
 			
 			// Disallow teleporting in guest mode
-			if (sourcePlayer.adminPrivileges < 1)
+			if (sourcePlayer.adminPrivileges < 0)
 				return false;
 			
 			// Disallow teleporting in guest mode or to a player on another team
@@ -58,7 +58,7 @@ namespace WormholePotion {
 				return false;
 			
 			// Disallow teleporting in guest mode
-			if (playerGhostLookup[sourcePlayer].adminPrivileges < 1)
+			if (playerGhostLookup[sourcePlayer].adminPrivileges < 0)
 				return false;
 			
 			// Disallow teleporting in guest mode or to a player on another team
