@@ -45,6 +45,7 @@ namespace WormholePotion.Networking {
 		    var factionLookup = SystemAPI.GetComponentLookup<FactionCD>();
 		    var playerGhostLookup = SystemAPI.GetComponentLookup<PlayerGhost>();
 		    var containedObjectsLookup = SystemAPI.GetBufferLookup<ContainedObjectsBuffer>();
+		    var inventoryLookup = SystemAPI.GetBufferLookup<InventoryBuffer>();
 		    var databaseBank = SystemAPI.GetSingleton<PugDatabase.DatabaseBankCD>();
 		    var worldInfo = SystemAPI.GetSingleton<WorldInfoCD>();
 		    var wormholePotionId = Main.WormholePotionId;
@@ -55,7 +56,7 @@ namespace WormholePotion.Networking {
 			    if (sourcePlayer == Entity.Null || targetPlayer == Entity.Null)
 				    return;
 
-			    if (!TeleportUtils.CanTeleportTo(sourcePlayer, targetPlayer, _inventoryHandlerShared, worldInfo, playerStateLookup, factionLookup, playerGhostLookup, containedObjectsLookup, databaseBank))
+			    if (!TeleportUtils.CanTeleportTo(sourcePlayer, targetPlayer, _inventoryHandlerShared, worldInfo, playerStateLookup, factionLookup, playerGhostLookup, containedObjectsLookup, inventoryLookup, databaseBank))
 				    return;
 
 			    if (!SystemAPI.HasComponent<PlayerStateCD>(sourcePlayer) || !SystemAPI.HasComponent<TeleportingStateCD>(sourcePlayer) || !SystemAPI.HasComponent<LocalTransform>(targetPlayer))

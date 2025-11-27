@@ -49,7 +49,7 @@ namespace WormholePotion {
 			return true;
 		}
 		
-		public static bool CanTeleportTo(Entity sourcePlayer, Entity targetPlayer, in InventoryHandlerShared inventoryHandlerShared, in WorldInfoCD worldInfo, in ComponentLookup<PlayerStateCD> playerStateLookup, in ComponentLookup<FactionCD> factionLookup, in ComponentLookup<PlayerGhost> playerGhostLookup, in BufferLookup<ContainedObjectsBuffer> containedObjectsBufferLookup, in PugDatabase.DatabaseBankCD databaseBank) {
+		public static bool CanTeleportTo(Entity sourcePlayer, Entity targetPlayer, in InventoryHandlerShared inventoryHandlerShared, in WorldInfoCD worldInfo, in ComponentLookup<PlayerStateCD> playerStateLookup, in ComponentLookup<FactionCD> factionLookup, in ComponentLookup<PlayerGhost> playerGhostLookup, in BufferLookup<ContainedObjectsBuffer> containedObjectsBufferLookup, in BufferLookup<InventoryBuffer> inventoryBufferLookup, in PugDatabase.DatabaseBankCD databaseBank) {
 			if (sourcePlayer == Entity.Null || targetPlayer == Entity.Null)
 				return false;
 			
@@ -74,7 +74,7 @@ namespace WormholePotion {
 				return false;
 			
 			// Disallow teleporting if you don't have a wormhole potion
-			if (InventoryUtility.GetTotalAmount(containedObjectsBufferLookup, databaseBank, sourcePlayer, Main.WormholePotionId) == 0)
+			if (InventoryUtility.GetTotalAmount(containedObjectsBufferLookup, inventoryBufferLookup, databaseBank, sourcePlayer, Main.WormholePotionId) == 0)
 				return false;
 
 			return true;
